@@ -17,6 +17,7 @@ import Resources.ListClients;
 import Resources.Client;
 import java.util.ArrayList;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.POST;
 import static javax.ws.rs.HttpMethod.POST;
 import javax.ws.rs.core.MediaType;
 
@@ -34,10 +35,10 @@ import javax.ws.rs.core.MediaType;
     
     
 @PUT
-@Path("ajoutClient")
+@Path("CreerListe")
 @Produces(MediaType.APPLICATION_XML)
 @Consumes(MediaType.APPLICATION_XML)
-    public void ajoutClient(@PathParam("nom")String nom, @PathParam("prenom") String prenom ) {
+    public void CreerListe() {
         Client cl1 = new Client();
         cl1.setNom("Barbier");
         cl1.setPrenom("Thomas");
@@ -52,36 +53,48 @@ import javax.ws.rs.core.MediaType;
         liste.ajouterClientDansListe(cl3);        
     }
     
-   /* 
+    
+@POST
+@Path("AjoutClient")
+@Consumes(MediaType.APPLICATION_XML)
+    public void AjoutClient(@PathParam("nom") String nom, @PathParam("prenom") String prenom){
+        Client cl = new Client();
+        cl.setNom(nom);
+        cl.setPrenom(prenom);
+        liste.ajouterClientDansListe(cl);
+    }
+   
     
 @POST
 @Path("ModifierClient")
-@Produces(MediaType.APPLICATION_XML)
 @Consumes(MediaType.APPLICATION_XML)
-    public String modifierClient(){
-        liste.modifierClient(0, c4);
+    public void modifierClient(@PathParam("nom") String nom, @PathParam("prenom") String prenom){
+        Client cl = new Client();
+        cl.setNom(nom);
+        cl.setPrenom(prenom);
+        liste.modifierClient(0, cl);
     }
-    */
+    
     
 @GET
 @Path("ListeClients")
 @Produces(MediaType.APPLICATION_XML)
-    public ArrayList<Client> listeClient(){
-        return liste.consulterListeClient();
+    public ArrayList<Client> ListeClients(){
+        return this.liste.consulterListeClient();
     }
     
 @GET
-@Path("{InfosClient}")
+@Path("/User/{id}")
 @Produces(MediaType.APPLICATION_XML)
-    public Client getClient(@PathParam("index") int index){
-        return this.liste.consulterClient(index);
+    public Client getClient(@PathParam("id") String id){
+        return this.liste.consulterClient(id);
     }
-    /*
+
+    
 @DELETE
 @Path("Suppression")
-@Produces(MediaType.APPLICATION_XML)
-    public void delete(){
-        this.ajoutClient();
-        l.supprimerClient(1);
-    */
+@Consumes(MediaType.APPLICATION_XML)
+    public void delete(@PathParam("id") int id){
+        this.liste.supprimerClient(id);
+}
 }

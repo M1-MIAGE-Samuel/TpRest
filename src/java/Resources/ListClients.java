@@ -40,8 +40,9 @@ public class ListClients {
         liste.set(indice, c);
     }
     
-    public Client consulterClient(int index){
-        return liste.get(index);
+    public Client consulterClient(String index){
+        int id = Integer.parseInt(index);
+        return liste.get(id);
     }
     
     public ArrayList<Client> consulterListeClient(){
